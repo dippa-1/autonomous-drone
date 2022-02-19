@@ -1,10 +1,13 @@
+FROM ros:galactic
+# FROM osrf/ros:galactic-desktop
 
-FROM arm64v8/ros:galactic
+RUN mkdir -p /home
 
-RUN apt-get update && apt-get install -y \
-      ros-${ROS_DISTRO}-demo-nodes-cpp \
-      ros-${ROS_DISTRO}-demo-nodes-py && \
-    rm -rf /var/lib/apt/lists/*
+COPY ros2_ultrasonic_sensor /home/ros2_ultrasonic_sensor
 
-CMD ["ros2", "launch", "demo_nodes_cpp", "talker_listener.launch.py"]
+RUN cd /home && \
+  rosdep install -i --from-path /home --rosdistro galactic -y && \
+  colcon build --packages-select ros2_ultrasonic_sensor
 
+SHELL ["/bin/bash", "-c"]
+CMD . /home/install/setup.bash && ros2 run ros2_ultrasonic_sensor talker
