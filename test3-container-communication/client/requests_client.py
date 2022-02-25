@@ -4,17 +4,18 @@ import json
 import time
 import os
 
+import asyncio
+import websockets
+
+
 BENCHMARK_TIME = 10
 servers = {
     'http': 8000,
-    # 'django': 8001,
-    # 'flask': 8002,
     'turbogears2': 8003,
-    # 'tornado': 8004,
-    # 'sanic': 8005,
-    # 'falcon': 8006,
-    # 'bottle': 8007
+    'bottle': 8007
 }
+WEBSOCKET_PORT = 8010
+RESULTS_FILE = '/benchmarks/results.json'
 
 def requests_benchmark(port: int):
     start = time.time()
@@ -29,6 +30,19 @@ def requests_benchmark(port: int):
 
     return counter
 
+async def websocket_request(results):
+    async with websockets.connect(f"ws://localhost:{WEBSOCKET_PORT}") as websocket:
+        start = time.time()
+        counter = 0
+        while time.time() - start < BENCHMARK_TIME:
+            await websocket.send('')
+            await websocket.recv()
+            print('Received response')
+            counter += 1
+        results['websocket'] = counter
+        with open(RESULTS_FILE, 'w') as file:
+            json.dump(results, file)
+
 
 if __name__ == "__main__":
     print("Requests client started.")
@@ -37,10 +51,12 @@ if __name__ == "__main__":
     for server in servers:
         requests_counter = requests_benchmark(servers[server])
 
-        if os.path.exists("/benchmarks/results.json"):
-            with open("/benchmarks/results.json", 'r') as file:
+        if os.path.exists(""):
+            with open(RESULTS_FILE, 'r') as file:
                 results = json.load(file)
 
         results['requests_' + server] = requests_counter
-        with open("/benchmarks/results.json", 'w') as file:
+        with open(RESULTS_FILE, 'w') as file:
             json.dump(results, file)
+
+    asyncio.run(websocket_request(results))

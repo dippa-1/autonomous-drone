@@ -8,8 +8,23 @@ from wsgiref.simple_server import make_server
 from tg import MinimalApplicationConfigurator
 from tg import expose, TGController
 
+# bottle
+from bottle import route, run
 
-RETURN_MESSAGE = "hello world!"
+# websocket
+import asyncio
+import websockets
+
+async def websocket_response(websocket):
+    async for _ in websocket:
+        await websocket.send(RETURN_MESSAGE)
+
+async def main():
+    async with websockets.serve(websocket_response, "", 8010):
+        await asyncio.Future()  # run forever
+
+
+RETURN_MESSAGE = "hello world!" # TODO: replace with byte array that has the size of the actual sensor data
 
 
 def serve_http():
@@ -46,10 +61,25 @@ def serve_turboGear():
     httpd = make_server('', 8003, config.make_wsgi_app())
     httpd.serve_forever()
 
+
+def serve_bottle():
+    @route('/')
+    def index():
+        return RETURN_MESSAGE
+    run(host='', port=8007)
+
+
+def run_asyncio():
+    asyncio.run(main())
+
+
 if __name__ == "__main__":
+
     threads = [
         threading.Thread(target=serve_http),
-        threading.Thread(target=serve_turboGear)
+        threading.Thread(target=serve_turboGear),
+        threading.Thread(target=serve_bottle),
+        threading.Thread(target=run_asyncio),
     ]
 
     for t in threads:
