@@ -7,6 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8000 8001 8002 8003 8004 8005 8006 8007
 
-CMD ["python", "./http_server.py"]
+CMD ["python", "./run_servers.py"]

@@ -4,11 +4,12 @@ services:
     build: ./server
     ports:
       - "8000:8000"
+      - "8003:8003"
   client:
     build: ./client
     network_mode: host
     depends_on:
       - server
     volumes:
-      - "./client/benchmarks/:/benchmarks"
+      - "./client:/benchmarks"
 
