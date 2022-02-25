@@ -5,9 +5,8 @@ COPY requirements.txt ./
 RUN apk --update add gcc make g++ zlib-dev py3-curl
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+RUN mkdir /benchmarks
 
-EXPOSE 8000
-EXPOSE 80
+COPY . .
 
 CMD ["python", "./requests_client.py"]

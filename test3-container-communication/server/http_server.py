@@ -8,7 +8,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
         self.wfile.write("hi!".encode("utf8"))
 
 if __name__ == "__main__":
-    server_address = ("localhost", 8000)
+    server_address = ("", 8000)
     httpd = HTTPServer(server_address, HTTPHandler)
 
     print(f"Starting httpd server on {server_address[0]}:{server_address[1]}")
