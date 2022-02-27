@@ -1,12 +1,13 @@
-FROM python:alpine
+# FROM arm64v8/ros:galactic
+FROM ros:galactic
 
 COPY requirements.txt ./
 
-RUN apk --update add gcc make g++ zlib-dev
+RUN apt-get update && apt-get install python3-pip -y
 RUN pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir /benchmarks
 
 COPY . .
 
-CMD ["python", "./requests_client.py"]
+CMD ["python3", "./requests_client.py"]
