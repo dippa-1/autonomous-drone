@@ -1,0 +1,5 @@
+services:
+  client:
+    build: "."
+    volumes:
+      - "./ros2-pkgs/:/ros2-pkgs"
