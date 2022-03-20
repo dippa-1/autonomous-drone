@@ -31,7 +31,8 @@ def requests_benchmark(port: int):
     return counter
 
 async def websocket_request(results):
-    async with websockets.connect(f"ws://localhost:{WEBSOCKET_PORT}") as websocket:
+    ws_url = f"ws://localhost:{WEBSOCKET_PORT}"
+    async with websockets.connect(ws_url) as websocket:
         start = time.time()
         counter = 0
         while time.time() - start < BENCHMARK_TIME:
