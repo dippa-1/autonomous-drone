@@ -34,9 +34,6 @@ def serve_http():
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             self.wfile.write(RETURN_MESSAGE.encode("utf8"))
-        
-        # def log_message(self, format, *args):
-        #     return
 
     server_address = ("", 8000)
     httpd = HTTPServer(server_address, HTTPHandler)
