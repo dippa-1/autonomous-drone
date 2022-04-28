@@ -9,6 +9,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
+        print("got message")
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
 
@@ -19,7 +20,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
         else:
             self.wfile.write("Incorrect data format".encode('utf-8'))
 
-server_address = ("localhost", 8000)
+server_address = ("", 8001)
 httpd = HTTPServer(server_address, HTTPHandler)
 
 print(f"Starting httpd server on {server_address[0]}:{server_address[1]}")
