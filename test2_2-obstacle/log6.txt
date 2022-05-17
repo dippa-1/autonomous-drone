@@ -1,0 +1,10 @@
+Waiting for drone to connect...
+-- Connected to drone!
+Waiting for drone to have a global position estimate...
+-- Global position estimate OK
+-- Setting maximum speed to 1
+-- Arming
+-- Setting initial setpoint
+-- Starting offboard
+-- Takeoff
+-- Go lat, long, -10m Down within global coordinate system

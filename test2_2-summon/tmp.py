@@ -1,18 +1,6 @@
 from aiohttp import web
 from mavsdk import System
 
-async def root_post(request):
-    print("got request")
-    data = await request.json()
-    print(data)
-    if "lat" in data and "long" in data:
-        lat = data["lat"]
-        long = data["long"]
-        await run(lat, long)    
-        return web.Response(text="Lat: " + str(data["lat"]) + ", Long: " + str(data["long"]))
-    else:
-        return web.Response(text="Incorrect data format")
-        
 async def run(lat, long):
     drone = System()
     await drone.connect(system_address="serial:///dev/serial0:921600")
@@ -35,23 +23,24 @@ async def run(lat, long):
         break
 
     print("-- Arming")
-    #await drone.action.arm()
+    await drone.action.arm()
 
     print("-- Taking off")
-    #await drone.action.takeoff()
+    await drone.action.takeoff()
 
     await asyncio.sleep(1)
     # To fly drone 20m above the ground plane
     flying_alt = absolute_altitude + 5.0
     # goto_location() takes Absolute MSL altitude
     print(f"-- Flying to {lat}, {long}")
-   # await drone.action.goto_location(lat, long, flying_alt, 0)
-    #await drone.action.land()
+    await drone.action.goto_location(lat, long, flying_alt, 0)
+    await drone.action.land()
     while True:
         print("Staying connected, press Ctrl-C to exit")
         await asyncio.sleep(1)
 	
-app = web.Application()
-app.add_routes([web.post('/', root_post)])
+#app = web.Application()
+await run(49.033102, 9.318098)
+#app.add_routes([web.post('/', root_post)])
 
-web.run_app(app)
+#web.run_app(app)

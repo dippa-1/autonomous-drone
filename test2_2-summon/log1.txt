@@ -1,0 +1,16 @@
+Waiting for drone to connect...
+-- Connected to drone!
+Waiting for drone to have a global position estimate...
+-- Global position state is good enough for flying.
+Fetching amsl altitude at home location....
+-- Arming
+-- Taking off
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
+Staying connected, press Ctrl-C to exit
